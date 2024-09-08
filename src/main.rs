@@ -1,14 +1,15 @@
 fn main() {
-    vetor();
+    array(); //tamanho fixo
     matriz();
-    //vetor_erro_no_acesso_de_elemento();
-    vetor_com_acesso_de_elemento_com_usize();
+    //array_erro_no_acesso_de_elemento();
+    array_com_acesso_de_elemento_com_usize();
     println!("E fim de semana? {}", eh_fim_de_semana(DiaDaSemana::Domingo));
     println!("A cor é {}", nome_da_cor(Cor::CYMK{ciano:40,amarelo:70,magenta:255,preto:0}));
     conteudo_opcional();
+    vector(); //array com tamanho dinâmico
 }
 
-fn vetor(){
+fn array(){
     let notas: [f32; 4] = [10.0, 8.0, 9.5, 6.0];
 
     println!("Nota 1: {}, nota 2: {}, nota 3: {}, nota 4: {}", notas[0], notas[1], notas[2], notas[3]);
@@ -39,17 +40,17 @@ fn matriz(){
 
 /*
 //O compilador Rust compila todas as funções, mesmo que não é usada.
-fn vetor_erro_no_acesso_de_elemento(){
-    let meu_vetor: [f32; 4] = [0.0; 4]; 
+fn array_erro_no_acesso_de_elemento(){
+    let meu_array: [f32; 4] = [0.0; 4]; 
     let indice: i64 = 0;
-    println!("Aqui da erro de usize -> {}", meu_vetor[indice]) //slice indices are of type `usize` or ranges of `usize`
+    println!("Aqui da erro de usize -> {}", meu_array[indice]) //slice indices are of type `usize` or ranges of `usize`
 }
 */
 
-fn vetor_com_acesso_de_elemento_com_usize(){
-    let meu_vetor: [f32; 4] = [201.8745; 4]; 
+fn array_com_acesso_de_elemento_com_usize(){
+    let meu_array: [f32; 4] = [201.8745; 4]; 
     let indice: usize = 0;
-    println!("Acesso com tipo usize -> {}", meu_vetor[indice])
+    println!("Acesso com tipo usize -> {}", meu_array[indice])
 }
 
 #[allow(dead_code)]
@@ -122,4 +123,39 @@ fn ler_arquivo(arquivo: String) -> Option<String>{
     } else {
         None
     }
+}
+
+fn vector(){
+    let mut notas: Vec<f32> = Vec::with_capacity(4); //Vec::new();
+    notas.push(10.0);
+    notas.push(8.8);
+    notas.push(6.5);
+    //let mut notas: Vec<f32> = vec![10.0, 8.8, 6.5];
+    println!("{:?}", notas);
+    println!("Capacidade: {}", notas.capacity());
+
+    notas.push(7.2);
+    println!("{:?}", notas);
+    println!("Capacidade: {}", notas.capacity());
+
+    println!("Nota 1 = {}", notas[0]);
+    println!("Nota 5 = {}", match notas.get(4) {
+        Some(nota) => *nota,
+        None => 0.0  
+    });
+
+    println!("Último valor de nota removido: {:?}", notas.pop());
+    println!("{:?}", notas);
+
+    /*
+    while let Some(nota) = notas.pop() {
+        println!("Valor de nota removida: {}", nota);
+    }
+    println!("{:?}", notas);
+    */
+
+    for nota in &notas {
+        println!("Valor de nota: {}", nota);
+    }
+    println!("{:?}", notas);
 }

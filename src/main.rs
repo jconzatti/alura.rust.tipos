@@ -107,8 +107,12 @@ fn conteudo_opcional(){
     }
     println!("{:?}", conteudo_do_arquivo);
 
-    if let Some(conteudo) = conteudo_do_arquivo {
+    if let Some(conteudo) = &conteudo_do_arquivo {
         println!("O conteúdo do arquivo é: {}", conteudo)    
+    }
+
+    if let None = conteudo_do_arquivo {
+        println!("Arquivo não existe!")
     }
 }
 

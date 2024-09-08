@@ -5,6 +5,7 @@ fn main() {
     vetor_com_acesso_de_elemento_com_usize();
     println!("E fim de semana? {}", eh_fim_de_semana(DiaDaSemana::Domingo));
     println!("A cor é {}", nome_da_cor(Cor::CYMK{ciano:40,amarelo:70,magenta:255,preto:0}));
+    conteudo_opcional();
 }
 
 fn vetor(){
@@ -95,5 +96,26 @@ fn nome_da_cor(cor: Cor) -> String{
         Cor::CYMK{ciano: _, amarelo: _, magenta: 255, preto: _}=> String::from("magenta"),
         Cor::RGB(_,_,_) => String::from("RGB desconhecida"),
         Cor::CYMK{ciano: _, amarelo: _, magenta: _, preto: _} => String::from("CYMK desconhecida")
+    }
+}
+
+fn conteudo_opcional(){
+    let conteudo_do_arquivo = ler_arquivo(String::from("file.txt"));
+    match &conteudo_do_arquivo {
+        Some(conteudo) => println!("{}", conteudo),
+        None => println!("Arquivo não existe!")
+    }
+    println!("{:?}", conteudo_do_arquivo);
+
+    if let Some(conteudo) = conteudo_do_arquivo {
+        println!("O conteúdo do arquivo é: {}", conteudo)    
+    }
+}
+
+fn ler_arquivo(arquivo: String) -> Option<String>{
+    if arquivo != "" {
+        Some(String::from("Conteúdo do arquivo!"))
+    } else {
+        None
     }
 }

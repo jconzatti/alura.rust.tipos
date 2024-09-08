@@ -3,6 +3,8 @@ fn main() {
     matriz();
     //vetor_erro_no_acesso_de_elemento();
     vetor_com_acesso_de_elemento_com_usize();
+    println!("E fim de semana? {}", eh_fim_de_semana(DiaDaSemana::Domingo));
+    println!("A cor é {}", nome_da_cor(Cor::CYMK{ciano:40,amarelo:70,magenta:255,preto:0}));
 }
 
 fn vetor(){
@@ -47,4 +49,51 @@ fn vetor_com_acesso_de_elemento_com_usize(){
     let meu_vetor: [f32; 4] = [201.8745; 4]; 
     let indice: usize = 0;
     println!("Acesso com tipo usize -> {}", meu_vetor[indice])
+}
+
+#[allow(dead_code)]
+enum DiaDaSemana {
+    Domingo,
+    Segunda,
+    Terca,
+    Quarta,
+    Quinta,
+    Sexta,
+    Sabado
+}
+
+fn eh_fim_de_semana(dia_da_semana: DiaDaSemana) -> bool{
+    match dia_da_semana {
+        DiaDaSemana::Domingo | DiaDaSemana::Sabado => true,
+        _ => false
+    }
+} 
+
+#[allow(dead_code)]
+enum Cor {
+    Vermelho,
+    Verde,
+    Azul,
+    RGB(u8, u8, u8),
+    CYMK{
+        ciano: u8,
+        amarelo: u8,
+        magenta: u8,
+        preto: u8
+    }
+}
+
+fn nome_da_cor(cor: Cor) -> String{
+    match cor {
+        Cor::Vermelho | Cor::RGB(255,0,0) => String::from("vermelha"),
+        Cor::Verde | Cor::RGB(0,255,0) => String::from("verde"),
+        Cor::Azul | Cor::RGB(0,0,255) => String::from("azul"),
+        Cor::RGB(0,0,0) | Cor::CYMK{ciano: _, amarelo: _, magenta: _, preto: 255}=> String::from("preta"),
+        Cor::RGB(255,255,255) => String::from("branca"),
+        Cor::CYMK{ciano: 255, amarelo: _, magenta: _, preto: _}=> String::from("ciano"),
+        Cor::CYMK{ciano: _, amarelo: 255, magenta: _, preto: _}=> String::from("amarela"),
+        Cor::CYMK{ciano: _, amarelo: _, magenta: 255, preto: _}=> String::from("magenta"),
+        Cor::RGB(_,_,_) => String::from("RGB desconhecida"),
+        Cor::CYMK{ciano: _, amarelo: _, magenta: _, preto: _} => String::from("CYMK desconhecida")
+    }
 }

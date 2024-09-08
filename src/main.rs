@@ -7,6 +7,7 @@ fn main() {
     println!("A cor é {}", nome_da_cor(Cor::CYMK{ciano:40,amarelo:70,magenta:255,preto:0}));
     conteudo_opcional();
     vector(); //array com tamanho dinâmico
+    conta_corrente();
 }
 
 fn array(){
@@ -158,4 +159,55 @@ fn vector(){
         println!("Valor de nota: {}", nota);
     }
     println!("{:?}", notas);
+}
+
+struct ContaCorrente {
+    titular: Titular,
+    saldo: f64 //problema de ponto flutuante: https://www.youtube.com/watch?v=qeZloBkUf6M
+}
+
+impl ContaCorrente {
+    fn sacar(&mut self, valor: f64){
+        self.saldo -= valor;
+    }
+}
+
+struct Titular {
+    documento: String,
+    nome: String,
+    sobrenome: String
+}
+
+impl Titular {
+    fn nome_completo(&self) -> String {
+        let mut nome_completo = String::new();
+        nome_completo.push_str(&self.nome);
+        nome_completo.push_str(" ");
+        nome_completo.push_str(&self.sobrenome);
+        nome_completo.to_string()
+    }
+}
+
+fn conta_corrente(){
+    let titular: String = String::from("Jhoni Conzatti");
+    let saldo: f64 = 100.0;
+    println!("Dados da conta corrente: titular = {}, saldo = R$ {}", titular, saldo);
+
+    let mut conta_corrente: ContaCorrente = ContaCorrente{
+        titular: Titular {
+            documento: String::from("06699988811"), 
+            nome: String::from("Jhoni"), 
+            sobrenome: String::from("Conzatti")
+        }, 
+        saldo: 100.0
+    };
+
+    conta_corrente.sacar(50.0);
+
+    println!(
+        "Dados da conta corrente: titular = {} (cpf {}), saldo = R$ {}", 
+        conta_corrente.titular.nome_completo(),
+        conta_corrente.titular.documento, 
+        conta_corrente.saldo
+    );
 }
